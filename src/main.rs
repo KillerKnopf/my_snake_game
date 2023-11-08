@@ -3,6 +3,7 @@ use bevy::{
     prelude::*,
     window::Cursor,
 };
+use snake_game::SnakeGamePlugin;
 
 mod snake_game;
 
@@ -10,6 +11,7 @@ fn main() {
     App::new()
         // CustomDefaultPLugins is a customized initialization of DefaultPlugins
         .add_plugins(CustomDefaultPlugins {})
+        .add_plugins(SnakeGamePlugin {})
         .run();
 }
 
@@ -31,8 +33,8 @@ impl Plugin for CustomDefaultPlugins {
                         // Vsync option, here "Fast Vsync"
                         present_mode: bevy::window::PresentMode::Mailbox,
                         position: WindowPosition::Centered(MonitorSelection::Primary),
-                        resolution: (1280.0, 960.0).into(),
-                        title: "Bevy Base Project".into(),
+                        resolution: (1280.0, 1280.0).into(),
+                        title: "Snake".into(),
                         resizable: false,
                         focused: true,
                         ..default()
