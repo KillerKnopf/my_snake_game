@@ -1,4 +1,1 @@
-use bevy::prelude::Component;
-
-#[derive(Component)]
-pub struct Fodd {}
+// Here is all code for the food system

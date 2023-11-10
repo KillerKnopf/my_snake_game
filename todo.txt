@@ -1,0 +1,25 @@
+Next things to do:
+	- Make snake turn in grid centers
+	- Implement startup menu placeholder
+	- Add tail and segment support
+		- Create necessary components
+		- Create visuals (.png files)
+		- Figure out how to append as child to snake (for now grow by key press)
+	- Add simple food
+	- Add collision detection
+		- Check for collison with walls
+		- Check for collison with snake
+		- Check for collison with food
+	- Make snake grow
+	- Implement gameover screen placeholder
+	- Add score component
+	- Add target_score component
+	- Add victory detector
+	- Implement victory screen placeholder
+	- Create HUD with:
+		- Current length
+		- Target score
+	- Create proper UIs for
+		- Startup menu
+		- Victory screen
+		- Gameover screen
