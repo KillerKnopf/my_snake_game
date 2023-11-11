@@ -6,9 +6,9 @@ use bevy::prelude::*;
 use super::GameState;
 // Here is all code for the different uis
 
-pub struct UIPlugin {}
+pub struct UiPlugin;
 
-impl Plugin for UIPlugin {
+impl Plugin for UiPlugin {
     fn build(&self, app: &mut App) {
         app.add_state::<MenuState>().add_systems(
             Update,
@@ -23,7 +23,7 @@ impl Plugin for UIPlugin {
 }
 
 #[derive(Debug, Clone, Eq, PartialEq, Hash, Default, States)]
-enum MenuState {
+pub enum MenuState {
     // State of the displayed menu on initial startup.
     #[default]
     Startup,
@@ -36,10 +36,10 @@ enum MenuState {
 // ---------- Placeholders for the systems running during the different menu states ----------
 
 // System running while in GameState::InMenu and in MenuState::Startup.
-fn display_start_up_menu(input: Res<Input<KeyCode>>, current_state: Res<State<GameState>>) {
+fn display_start_up_menu(input: Res<Input<KeyCode>>, mut next_state: ResMut<NextState<GameState>>) {
     // Currently only here for testing and to not immediately start the snake upon opening the game
     if input.any_just_pressed([KeyCode::Space, KeyCode::A, KeyCode::D]) {
-        current_state.next();
+        next_state.set(GameState::InGame);
     }
 }
 

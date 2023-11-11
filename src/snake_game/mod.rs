@@ -1,7 +1,9 @@
 // Uncomment if unused warnings should not be raised when coding or compiling (don't do this for release).
 //#![allow(unused)]
 
-use self::snake::SnakePlugin;
+use self::logging::MyLoggingPlugin;
+
+use self::{snake::SnakePlugin, ui::UiPlugin};
 use bevy::prelude::*;
 
 // This module manages all game specific systems.
@@ -16,14 +18,25 @@ mod ui;
 // Sub module for the eaten food.
 // Spawn rules, spawning, nutritional value (how much snake can grow from it), and possible other effects
 mod food;
+// Sub module containing my custom loggin systems.
+// For example the systems logging State changes.
+// Only included in debug build
+mod logging;
 
-pub struct SnakeGamePlugin {}
+pub struct SnakeGamePlugin;
 
 impl Plugin for SnakeGamePlugin {
     fn build(&self, app: &mut App) {
         app.add_state::<GameState>()
-            .add_plugins(SnakePlugin {})
+            // Initializing sub module of SnakeGame.
+            .add_plugins(SnakePlugin)
+            .add_plugins(UiPlugin)
+            // Startup systems.
             .add_systems(Startup, setup_game);
+
+        // Plugins only added during debug.
+        // Uncomment for release
+        app.add_plugins(MyLoggingPlugin);
     }
 }
 
@@ -39,26 +52,8 @@ enum GameState {
     Paused,
 }
 
-impl GameState {
-    fn next(&self) -> Self {
-        match *self {
-            // Any MainMenu leads to InGame because any of them either starts or restarts the game or quits the application.
-            GameState::InMenu => GameState::InGame,
-            // GameState while game is being played.
-            GameState::InGame => GameState::Paused,
-            // Gamestate if user paused the game.
-            GameState::Paused => GameState::InGame,
-        }
-    }
-}
-
 // System to load general game stuff on startup
 fn setup_game(mut commands: Commands, asset_server: Res<AssetServer>) {
-    // Split into two to prepare space for possible, future alterations.
-    let camera = Camera2dBundle::default();
-
-    commands.spawn(camera);
-
     // Load background in here because there is no plan to change the backgorund during the game.
     let texture = asset_server.load("background.png");
     commands.spawn((

@@ -47,9 +47,9 @@ impl Plugin for CustomDefaultPlugins {
                 })
                 .set(LogPlugin {
                     // Enables different logging Levels for different systems
-                    filter: "wgpu=error,bevY_render=info,bevy_ecs=trace".to_string(),
+                    filter: "wgpu=error,bevy_render=error,bevy_ecs=trace".to_string(),
                     // Default loggging level
-                    level: Level::DEBUG,
+                    level: Level::INFO,
                 }),
         );
     }
@@ -59,8 +59,11 @@ impl Plugin for CustomDefaultPlugins {
 pub struct MainCamera {}
 
 fn initialize_camera(mut commands: Commands) {
+    // Split into two to prepare space for possible, future alterations.
+    let camera = Camera2dBundle::default();
+
     // Creates a main camera for the case that there may be mor cameras used
-    commands.spawn((Camera2dBundle::default(), MainCamera {}));
+    commands.spawn((camera, MainCamera {}));
 }
 
 pub struct CameraPlugin {}
